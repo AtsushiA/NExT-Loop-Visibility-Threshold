@@ -1,0 +1,38 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "nlvt/loop-visibility-threshold",
+	"version": "1.1.0",
+	"title": "Loop Visibility Threshold",
+	"category": "theme",
+	"description": "Query Loop 内の投稿数が指定した閾値以上の場合にインナーブロックを表示します。",
+	"keywords": [ "query", "loop", "visibility", "threshold", "conditional" ],
+	"textdomain": "next-loop-visibility-threshold",
+	"usesContext": [ "query", "queryId" ],
+	"attributes": {
+		"threshold": {
+			"type": "number",
+			"default": 0
+		}
+	},
+	"supports": {
+		"html": false,
+		"lock": false,
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		}
+	},
+	"editorScript": "file:./assets/editor.js",
+	"style": "file:./assets/style.css"
+}
