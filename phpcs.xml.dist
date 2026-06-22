@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<ruleset name="NExT Loop Visibility Threshold">
+	<description>Coding standards for NExT Loop Visibility Threshold.</description>
+
+	<!-- 対象ファイル -->
+	<file>./next-loop-visibility-threshold.php</file>
+	<file>./includes/</file>
+
+	<!-- 除外 -->
+	<exclude-pattern>./vendor/*</exclude-pattern>
+	<exclude-pattern>./node_modules/*</exclude-pattern>
+	<exclude-pattern>./tests/*</exclude-pattern>
+	<exclude-pattern>./assets/editor.asset.php</exclude-pattern>
+
+	<!-- 引数 -->
+	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg value="sp"/>
+
+	<!-- WordPress Coding Standards -->
+	<rule ref="WordPress">
+		<!-- 日本語の doc コメントには英語の句読点規則を適用しない -->
+		<exclude name="Squiz.Commenting.FunctionComment.ParamCommentFullStop"/>
+		<exclude name="Generic.Commenting.DocComment.LongNotCapital"/>
+	</rule>
+
+	<!-- PHP 互換性チェック（サポートする最低 PHP バージョンに対して検証） -->
+	<rule ref="PHPCompatibilityWP"/>
+	<config name="testVersion" value="7.4-"/>
+
+	<!-- テキストドメイン -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="next-loop-visibility-threshold"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- プレフィックス -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="nlvt"/>
+				<element value="NLVT"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- 最低 WordPress バージョン -->
+	<config name="minimum_wp_version" value="6.1"/>
+</ruleset>

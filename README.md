@@ -84,6 +84,58 @@ NExT-Loop-Visibility-Threshold/
 
 ---
 
+## 開発・テスト
+
+### 必要なもの
+
+- PHP 8.3
+- Composer
+- Node.js + npm（wp-env 用）
+- Docker（Integration / e2e の wp-env 用）
+
+### セットアップ
+
+```bash
+composer install
+npm install
+```
+
+### コーディング規約チェック（phpcs / WPCS）
+
+```bash
+composer run phpcs   # チェック
+composer run phpcbf  # 自動修正
+```
+
+### テスト
+
+```bash
+# Unit テスト（WordPress 非依存・Brain Monkey）
+composer run test:unit
+
+# Integration テスト（wp-env 上。Docker が必要）
+npm run env:start
+composer run test:integration   # = npx wp-env run tests-cli ... 経由でも可
+```
+
+> ポート 8888/8889 が他の環境と競合する場合は、`WP_ENV_PORT` / `WP_ENV_TESTS_PORT`
+> 環境変数、または `.wp-env.override.json`（gitignore 済み）でポートを変更してください。
+
+### CI / リリース
+
+- `.github/workflows/ci.yml` — `main` への push / PR で phpcs・PHPUnit（WP 最新+1世代前 × PHP 8.3/8.4）・Plugin Check を実行
+- `.github/workflows/release.yml` — `1.2.3` 形式のタグ push で配布用 zip を作成し GitHub Release を発行（タグとプラグインヘッダーの Version が一致しない場合は失敗）
+
+リリース手順:
+
+```bash
+# メインファイルの Version とタグを一致させる
+git tag 1.1.0
+git push origin 1.1.0
+```
+
+---
+
 ## ライセンス
 
 GPL-2.0-or-later — https://www.gnu.org/licenses/gpl-2.0.html

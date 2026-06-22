@@ -122,8 +122,8 @@ class NLVT_Settings {
 			return;
 		}
 
-		// 保存完了メッセージ.
-		if ( isset( $_GET['settings-updated'] ) ) {
+		// 保存完了メッセージ（WP コアが nonce 検証済みの保存後に付与するフラグの有無のみを確認）.
+		if ( isset( $_GET['settings-updated'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			add_settings_error(
 				'nlvt_messages',
 				'nlvt_message',

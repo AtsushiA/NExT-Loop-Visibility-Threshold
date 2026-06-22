@@ -130,12 +130,25 @@ class NLVT_Block {
 
 		// orderby: WP_Query が許可する値のホワイトリスト.
 		$allowed_orderby = array(
-			'none', 'ID', 'author', 'title', 'name', 'type', 'date',
-			'modified', 'parent', 'rand', 'comment_count', 'relevance',
-			'menu_order', 'meta_value', 'meta_value_num', 'post__in',
+			'none',
+			'ID',
+			'author',
+			'title',
+			'name',
+			'type',
+			'date',
+			'modified',
+			'parent',
+			'rand',
+			'comment_count',
+			'relevance',
+			'menu_order',
+			'meta_value',
+			'meta_value_num',
+			'post__in',
 		);
-		$raw_orderby = isset( $query_context['orderBy'] ) ? $query_context['orderBy'] : 'date';
-		$orderby     = in_array( $raw_orderby, $allowed_orderby, true ) ? $raw_orderby : 'date';
+		$raw_orderby     = isset( $query_context['orderBy'] ) ? $query_context['orderBy'] : 'date';
+		$orderby         = in_array( $raw_orderby, $allowed_orderby, true ) ? $raw_orderby : 'date';
 
 		$args = array(
 			'post_type'   => $post_type,
@@ -163,10 +176,10 @@ class NLVT_Block {
 		if ( isset( $query_context['sticky'] ) ) {
 			$sticky_posts = get_option( 'sticky_posts', array() );
 			if ( 'only' === $query_context['sticky'] ) {
-				$args['post__in']       = $sticky_posts;
+				$args['post__in']            = $sticky_posts;
 				$args['ignore_sticky_posts'] = 1;
 			} elseif ( 'exclude' === $query_context['sticky'] ) {
-				$args['post__not_in']   = array_merge(
+				$args['post__not_in']        = array_merge(
 					isset( $args['post__not_in'] ) ? $args['post__not_in'] : array(),
 					$sticky_posts
 				);
@@ -187,7 +200,7 @@ class NLVT_Block {
 				}
 			}
 			if ( ! empty( $tax_query ) ) {
-				$args['tax_query'] = $tax_query;
+				$args['tax_query'] = $tax_query; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Query Loop の絞り込みに必要。
 			}
 		}
 
