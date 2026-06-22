@@ -28,8 +28,9 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: root
-          # MYSQL_DATABASE を指定すると DB が既存扱いとなり install-wp-tests.sh の
-          # read -p で対話入力を求められて CI が止まる。第6引数 true で DB 作成をスキップする。
+          # DB はサービス側で事前作成する。install-wp-tests.sh は第6引数 true で
+          # 作成処理を完全にスキップ（早期 return）するため、read -p の対話入力も発生しない。
+          MYSQL_DATABASE: wordpress_test
         ports:
           - 3306:3306
         options: >-
@@ -76,6 +77,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: wordpress/plugin-check-action@v1
         with:
+          # テキストドメインは小文字の WP 慣習 next-loop-visibility-threshold。
+          # ディレクトリ名(NExT-Loop-Visibility-Threshold)とは大文字小文字が異なるため
+          # 正規の slug を明示し、TextDomainMismatch を正しく解消する。
+          slug: next-loop-visibility-threshold
           # vendor / tests は本番プラグインに含まれないため除外する（誤検出回避）。
           exclude-directories: 'vendor,tests,node_modules'
           # wp.org ディレクトリには公開しないため plugin_repo カテゴリは対象外。
