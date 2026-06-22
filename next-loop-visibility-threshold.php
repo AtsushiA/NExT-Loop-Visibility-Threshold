@@ -12,6 +12,8 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: next-loop-visibility-threshold
  * Domain Path: /languages
+ *
+ * @package NExT_Loop_Visibility_Threshold
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

@@ -1,0 +1,20 @@
+# 配布 zip に含めない開発用ファイル（release.yml の rsync 除外と同期）
+.git
+.github
+.husky
+.gitignore
+.distignore
+.editorconfig
+.wp-env.json
+.wp-env.override.json
+bin
+node_modules
+tests
+package.json
+package-lock.json
+composer.json
+composer.lock
+phpcs.xml.dist
+phpunit.xml.dist
+debug.log
+db.sql

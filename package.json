@@ -1,0 +1,15 @@
+{
+	"name": "next-loop-visibility-threshold",
+	"version": "1.1.0",
+	"description": "Query Loop ブロック内で投稿数が指定の閾値以上の場合にインナーブロックを表示します。",
+	"private": true,
+	"license": "GPL-2.0-or-later",
+	"scripts": {
+		"env:start": "wp-env start",
+		"env:stop": "wp-env stop",
+		"test:integration": "wp-env run tests-cli --env-cwd=wp-content/plugins/NExT-Loop-Visibility-Threshold vendor/bin/phpunit --testsuite integration --bootstrap=tests/phpunit/bootstrap.php"
+	},
+	"devDependencies": {
+		"@wordpress/env": "^10.0.0"
+	}
+}

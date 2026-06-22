@@ -1,0 +1,97 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  phpcs:
+    name: phpcs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+          coverage: none
+      - run: composer install --no-interaction
+      - run: composer run phpcs
+
+  phpunit:
+    name: "PHPUnit (WP ${{ matrix.wp }} / PHP ${{ matrix.php }})"
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          # DB はサービス側で事前作成する。install-wp-tests.sh は第6引数 true で
+          # 作成処理を完全にスキップ（早期 return）するため、read -p の対話入力も発生しない。
+          MYSQL_DATABASE: wordpress_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - wp: latest
+            php: '8.3'
+          - wp: latest
+            php: '8.4'
+          - wp: '6.8'
+            php: '8.3'
+          - wp: '6.8'
+            php: '8.4'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer
+          extensions: mysqli
+          coverage: none
+      - name: Install Composer dependencies (with dev)
+        run: composer install --no-interaction
+      - name: Install WordPress test suite
+        # 引数: <db-name> <db-user> <db-pass> <db-host> <wp-version> <skip-db-create>
+        # 第6引数 true: MySQL サービスが用意した DB を再利用し DB 作成をスキップ
+        run: bash bin/install-wp-tests.sh wordpress_test root root 127.0.0.1 ${{ matrix.wp }} true
+      - name: Run unit tests
+        # Unit テストは WordPress 非依存の bootstrap（phpunit.xml.dist の既定）で実行する。
+        # WP をロードすると Brain Monkey/Patchwork が WP 関数を再定義できず失敗するため、
+        # Integration とは分けて実行する。
+        run: vendor/bin/phpunit --testsuite unit
+      - name: Run integration tests
+        # Integration テストは WordPress テスト環境をロードする bootstrap で実行する。
+        env:
+          WP_TESTS_DIR: /tmp/wordpress-tests-lib
+        run: vendor/bin/phpunit --testsuite integration --bootstrap tests/phpunit/bootstrap.php
+
+  plugin-check:
+    name: Plugin Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: wordpress/plugin-check-action@v1
+        with:
+          # テキストドメインは小文字の WP 慣習 next-loop-visibility-threshold。
+          # ディレクトリ名(NExT-Loop-Visibility-Threshold)とは大文字小文字が異なるため
+          # 正規の slug を明示し、TextDomainMismatch を正しく解消する。
+          slug: next-loop-visibility-threshold
+          # vendor / tests は本番プラグインに含まれないため除外する（誤検出回避）。
+          exclude-directories: 'vendor,tests,node_modules'
+          # wp.org ディレクトリには公開しないため plugin_repo カテゴリは対象外。
+          categories: |
+            general
+            performance
+            accessibility
+            security
+          ignore-warnings: true
