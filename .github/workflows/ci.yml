@@ -64,11 +64,16 @@ jobs:
         # 引数: <db-name> <db-user> <db-pass> <db-host> <wp-version> <skip-db-create>
         # 第6引数 true: MySQL サービスが用意した DB を再利用し DB 作成をスキップ
         run: bash bin/install-wp-tests.sh wordpress_test root root 127.0.0.1 ${{ matrix.wp }} true
-      - name: Run PHPUnit
-        # Integration 用 bootstrap を明示指定する。Unit テストも同じ bootstrap で動く。
+      - name: Run unit tests
+        # Unit テストは WordPress 非依存の bootstrap（phpunit.xml.dist の既定）で実行する。
+        # WP をロードすると Brain Monkey/Patchwork が WP 関数を再定義できず失敗するため、
+        # Integration とは分けて実行する。
+        run: vendor/bin/phpunit --testsuite unit
+      - name: Run integration tests
+        # Integration テストは WordPress テスト環境をロードする bootstrap で実行する。
         env:
           WP_TESTS_DIR: /tmp/wordpress-tests-lib
-        run: vendor/bin/phpunit --bootstrap tests/phpunit/bootstrap.php
+        run: vendor/bin/phpunit --testsuite integration --bootstrap tests/phpunit/bootstrap.php
 
   plugin-check:
     name: Plugin Check
