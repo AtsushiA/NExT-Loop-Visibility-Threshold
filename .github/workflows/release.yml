@@ -50,12 +50,16 @@ jobs:
       - name: Create plugin zip
         env:
           TAG_VERSION: ${{ steps.meta.outputs.version }}
+        # 本プラグインは実行時の Composer 依存を持たず（require は php のみ）、クラスは
+        # require_once で読み込むため Composer オートローダを使わない。よって vendor/ は
+        # 配布物から除外する。将来、本番依存を追加した場合は vendor の exclude を外すこと。
         run: |
           rsync -av \
             --exclude='.git' \
             --exclude='.github' \
             --exclude='.husky' \
             --exclude='bin' \
+            --exclude='vendor' \
             --exclude='node_modules' \
             --exclude='tests' \
             --exclude='.wp-env.json' \

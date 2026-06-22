@@ -8,6 +8,7 @@
 .wp-env.json
 .wp-env.override.json
 bin
+vendor
 node_modules
 tests
 package.json

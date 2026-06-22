@@ -144,6 +144,11 @@ GPL-2.0-or-later — https://www.gnu.org/licenses/gpl-2.0.html
 
 ## 変更履歴
 
+### 1.1.1
+
+- 開発・テスト・CI/CD 基盤を追加（phpcs / PHPUnit / GitHub Actions / Plugin Check / タグリリース）
+- 配布パッケージから `vendor/` を除外（実行時に Composer 依存を使用しないため）
+
 ### 1.1.0
 
 - セキュリティ: フォールバック関数 `build_query_args_from_context()` の入力値検証を強化

@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "nlvt/loop-visibility-threshold",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"title": "Loop Visibility Threshold",
 	"category": "theme",
 	"description": "Query Loop 内の投稿数が指定した閾値以上の場合にインナーブロックを表示します。",

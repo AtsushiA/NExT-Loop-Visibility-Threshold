@@ -1,6 +1,6 @@
 {
 	"name": "next-loop-visibility-threshold",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "Query Loop ブロック内で投稿数が指定の閾値以上の場合にインナーブロックを表示します。",
 	"private": true,
 	"license": "GPL-2.0-or-later",
