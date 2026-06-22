@@ -3,7 +3,7 @@
  * Plugin Name: NExT Loop Visibility Threshold
  * Plugin URI:  https://github.com/
  * Description: Query Loop ブロック内で投稿数が指定の閾値以上の場合にインナーブロックを表示します。
- * Version:     1.1.0
+ * Version:     1.1.1
  * Requires at least: 6.1
  * Requires PHP: 7.4
  * Author:      NExT-Season
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'NLVT_VERSION', '1.1.0' );
+define( 'NLVT_VERSION', '1.1.1' );
 define( 'NLVT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'NLVT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
