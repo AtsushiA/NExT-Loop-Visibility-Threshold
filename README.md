@@ -1,5 +1,7 @@
 # NExT Loop Visibility Threshold
 
+[![Try in WordPress Playground](https://img.shields.io/badge/Try%20in-WordPress%20Playground-3858e9?logo=wordpress)](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/AtsushiA/NExT-Loop-Visibility-Threshold/main/blueprint.json)
+
 Query Loop ブロック内の投稿総数が指定した閾値以上の場合にのみ、インナーブロックを表示する WordPress プラグインです。
 
 ---

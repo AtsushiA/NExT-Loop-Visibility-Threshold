@@ -19,3 +19,4 @@ phpcs.xml.dist
 phpunit.xml.dist
 debug.log
 db.sql
+/blueprint.json
